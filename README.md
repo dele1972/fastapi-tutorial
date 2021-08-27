@@ -2,11 +2,19 @@
 
 Source (YouTube): [FastAPI MongoDB REST API in Python | CRUD Operations | Swagger | PyMongo](https://youtu.be/G7hZlOLhhMY) by Mahesh Kariya (16.05.2021)
 
+- See on GitHub too: [itsmaheshkariya/fastapi-mongodb-restapi](https://github.com/itsmaheshkariya/fastapi-mongodb-restapi)
+
 ## 1 - Python
+
+Python3 is preinstalled on Ubuntu 20.04
 
 ## 2 - pip(3)
 
+I use pip3 instead. Maybe a Link will follow.
+
 ## 3 - Virtual venv
+
+I use virtualenvwrapper. Maybe a Link will follow.
 
 ## 4 - pip3 install needed packages (fastapi pymongo uvicorn)
 

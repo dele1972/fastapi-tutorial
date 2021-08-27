@@ -2,7 +2,8 @@ from fastapi import APIRouter
 
 from models.user import User
 from config.db import conn
-from schemas.user import userEntity, usersEntity
+from schemas.user import serializeDict, serializeList
+from bson import ObjectId
 
 user = APIRouter()
 
@@ -12,11 +13,40 @@ user = APIRouter()
 @user.get('/')
 async def find_all_users():
     print(conn.local.user.find())
-    print(usersEntity(conn.local.user.find()))
-    return usersEntity(conn.local.user.find())
+    print(serializeList(conn.local.user.find()))
+    return serializeList(
+        conn.local.user.find()
+    )
 
+@user.get('/{id}')
+async def find_one_user(id):
+    return serializeDict(
+        conn.local.user.find_one({"_id": ObjectId(id)})
+    )
+
+# Create User with post
 # @param user acceppts model/user.py:User 
 @user.post('/')
 async def create_user(user: User):
-    conn.local.user.insert_one(dict(user))
-    return usersEntity(conn.local.user.find())
+    conn.local.user.insert_one(
+        dict(user)
+    )
+    return serializeList(conn.local.user.find())
+
+# Update User with put
+# @param user acceppts model/user.py:User 
+@user.put('/{id}')
+async def update_user(id, user: User):
+    conn.local.user.find_one_and_update(
+        {"_id": ObjectId(id)}, 
+        {"$set":dict(user)}
+    )
+    return serializeDict(conn.local.user.find_one({"_id": ObjectId(id)}))
+
+# Delete User with delete
+# @param user acceppts model/user.py:User 
+@user.delete('/{id}')
+async def delete_user(id):
+    return serializeDict(conn.local.user.find_one_and_delete(
+        {"_id": ObjectId(id)}
+    ))
